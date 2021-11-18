@@ -1,0 +1,12 @@
+.container-1 {
+  border: 10px whitesmoke;
+  background-color: plum;
+}
+.container-1 div {
+  border: 10px solid whitesmoke;
+  padding: 10px;
+}
+.flex-box p {
+  color: brown;
+  font-style: italic;
+}
