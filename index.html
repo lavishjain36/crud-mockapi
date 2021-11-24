@@ -1,23 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CSS FlexBoX</title>
+    <meta charset="utf-8" />
+    <title>Toy Tale</title>
+    <script type="text/javascript" src="script.js"></script>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="main-container">
-      <div class="item item1">Item-1</div>
-      <div class="item item2">Item-2</div>
-      <div class="item item3">Item-3</div>
-      <div class="item item4">Item-4</div>
-      <div class="item item5">Item-5</div>
-      <div class="item item6">Item-6</div>
-      <div class="item item7">Item-7</div>
-      <div class="item item8">Item-8</div>
-      <div class="item item9">Item-9</div>
-      <div class="item item10">Item-10</div>
+    <div id="toy-header">
+      <img
+        src="https://www.indianbarcode.com/images/product/2112.jpg"
+        alt="toy-header"
+      />
     </div>
+
+    <div class="container">
+      <form action="" class="add-toy-form">
+        <h3>Create a Toy</h3>
+        <input
+          type="text"
+          name="name"
+          value=""
+          placeholder="Enter Toys Name"
+          class="input-text"
+        />
+        <br />
+        <br />
+        <input
+          type="text"
+          name="image"
+          value=""
+          placeholder="Enter Toys Image
+        URL"
+          class="input-text"
+        />
+        <br />
+        <br />
+        <input
+          type="submit"
+          name="submit"
+          value="Create New toy"
+          class="submit"
+        />
+      </form>
+    </div>
+    <p>Render Toys <button id="new-toy-btn">Add a New Toy</button></p>
+
+    <div id="toy-collection"></div>
   </body>
 </html>

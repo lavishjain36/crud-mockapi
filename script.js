@@ -1,49 +1,35 @@
-async function getAlldata() {
-  try {
-    var data = await fetch(
-      "http://makeup-api.herokuapp.com/api/v1/products.json"
-    );
-    var obj = await data.json();
-    //console.log(obj);
-    for (var i = 0; i < obj.length; i++) {
-      var mydiv = document.createElement("div");
-      mydiv.setAttribute("class", "flex-box");
-      var h4 = document.createElement("h4");
-      mydiv.appendChild(h4);
-      h4.innerText = "Product:" + " " + obj[i].name;
-      var cost = document.createElement("p");
-      mydiv.appendChild(cost);
-      cost.innerText = "Price:" + " " + obj[i].price;
-      var h5 = document.createElement("h5");
-      mydiv.appendChild(h5);
-      h5.innerText = "Brand:" + " " + obj[i].brand;
-      var imgLink = document.createElement("a");
-      mydiv.appendChild(imgLink);
-      imgLink.setAttribute("href", obj[i].image_link);
-      imgLink.innerText = "Image link" + " ";
-      var br = document.createElement("br");
-      mydiv.appendChild(br);
+document.addEventListener("DOMContentLoaded", function () {
+  const addBtn = document.querySelector("#new-toy-btn");
+  const toyForm = document.querySelector(".container");
+  const toyCollection = document.getElementById("toy-collection");
+  let addToy = false;
 
-      var prodLink = document.createElement("a");
-      mydiv.appendChild(prodLink);
-      prodLink.setAttribute("href", obj[i].product_link);
-      prodLink.innerText = "Product Link";
-      var p = document.createElement("p");
-      mydiv.appendChild(p);
-      p.innerText = "Description:" + " " + obj[i].description;
+  const API_URL = "http://localhost:3000/toys";
 
-      document.getElementById("main").appendChild(mydiv);
+  function renderToy(toy) {
+    const toyDiv = document.createElement("div");
+    toyDiv.className = "card";
+    toyDiv.innerHTML = `
+    <h2>${toy.name}</h2>
+    <img src="${toy.image}" class="toy-avatar" />
+    <p>${toy.likes} Likes</p>
+    <button data-id='${toy.id}' class="like-btn>Like</button>
+    <button data-id='${toy.id}' class="delete-btn>Delete</button>
+    `;
 
-      //console.log(obj[i]);
-      // console.log(obj[i].name);
-      // console.log(obj[i].brand);
-      // console.log(obj[i].description);
-      // console.log(obj[i].image_link);
-      // console.log(obj[i].product_link);
-    }
-    //console.log(data);
-  } catch (error) {
-    console.log(error);
+    toyCollection.appendChild(toyDiv);
   }
-}
-getAlldata();
+  function renderAll(toys) {
+    toyCollection.innerHTML = "";
+    //all the toys to render inside dom
+    toys.forEach((toy) => renderToy(toy));
+  }
+
+  fetch(API_URL)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (toys) {
+      renderAll(toys);
+    });
+});
