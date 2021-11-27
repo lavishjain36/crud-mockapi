@@ -1,95 +1,65 @@
-#toy-header {
-  display: flex;
-  justify-content: center;
-  background: rgb(29, 73, 90);
-  opacity: 0.7;
-  height: 100px;
-  padding: 10px;
+body {
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  color: red;
 }
 
-#toy-header img {
-  height: 7rem;
-  width: auto;
-}
-
-#toy-collection {
-  margin: 3rem;
-}
-
-.card {
-  justify-content: center;
-  border: 2px solid rgb(131, 129, 129);
-  padding: 10px;
-  width: 20rem;
-  height: 25rem;
-  display: inline-grid;
-  margin: 1rem 2rem;
-  box-shadow: 0 10px 85px 0 rgba(0, 0, 0, 0.2),
-    0 16px 40px 0 rgba(58, 166, 255, 0.19);
-}
-
-button {
-  display: inline-block;
-  background-color: rgb(29, 73, 90);
-  border: none;
-  border-radius: 5px;
-  height: 3rem;
-  width: max-content;
-  color: white;
-  font-size: 16px;
-  justify-content: center;
-}
-
-button:hover {
-  background-color: rgb(252, 30, 159);
-  color: white;
-  cursor: pointer;
-}
-.container {
-  padding: 1rem;
-  width: stretch;
-  height: auto;
-  display: none;
-  background: rgb(29, 73, 90);
-  opacity: 0.7;
-}
-
-.add-toy-form {
+img {
   width: 100%;
 }
 
-.input-text {
-  border-radius: 7px;
-  height: 3rem;
-  width: 50%;
-  font-size: 20px;
-  font-family: "Courier New", Courier, monospace;
-  margin: auto;
+p {
+  font-size: 24px;
 }
 
-.submit {
-  background-color: rgb(255, 38, 190);
-  border: none;
-  border-radius: 5px;
-  height: 3rem;
-  width: max-content;
-  color: rgb(0, 0, 0);
-  font-size: 16px;
-  justify-content: center;
+/* *Small Devices */
+@media (max-width: 500px) {
+  body {
+    background: linear-gradient(45deg, black, red);
+  }
+  h1:nth-child(1) {
+    display: block;
+  }
 }
 
-.submit:hover {
-  cursor: pointer;
+/* Mobile Device */
+@media (min-width: 501px) and (max-width: 650px) {
+  body {
+    background: linear-gradient(45deg, rgb(101, 248, 16), red);
+  }
+  h1:nth-child(2) {
+    display: block;
+  }
 }
 
-.toy-avatar {
-  justify-content: center;
-  height: 10rem;
-  width: auto;
+/* Tablet Devices */
+
+@media (min-width: 651px) and (max-width: 800px) {
+  body {
+    background: linear-gradient(45deg, rgb(101, 248, 16), rgb(0, 102, 255));
+  }
+  h1:nth-child(3) {
+    display: block;
+  }
 }
 
-#head {
-  font-size: 20px;
-  font-family: "Courier New", Courier, monospace;
-  margin-left: 600px;
+/* Laptop Devices */
+
+@media (min-width: 801px) and (max-width: 1000px) {
+  body {
+    background: linear-gradient(45deg, rgb(101, 248, 16), rgb(223, 236, 99));
+  }
+  h1:nth-child(4) {
+    display: block;
+  }
+}
+
+/* X-large */
+@media (min-width: 1001px) {
+  body {
+    background: linear-gradient(45deg, rgb(101, 248, 16), rgb(223, 236, 99));
+  }
+  h1:nth-child(5) {
+    display: block;
+  }
 }
