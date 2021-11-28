@@ -1,46 +1,44 @@
-let roomClean = new Promise(function (resolve, reject) {
-  setTimeout(function () {
-    resolve("Cleaned");
-  }, 3000);
-});
+function search() {
+    var queryURL = "https://jsonplaceholder.typicode.com/users";
 
-let removeGarbage = new Promise(function (resolve, reject) {
-  setTimeout(function () {
-    resolve("Garbage Removed");
-  }, 2000);
-});
+    fetch(queryURL)
+            .then(function (response) {
+                // response.json() returns a json string,
+                // returning it will convert it 
+                // to a pure JavaScript 
+                // object for the next then's callback
+                return response.json();
+            })
+            .then(function (users) {
+                // users is a JavaScript object here
+                displayUsersAsATable(users);
+            })
+            .catch(function (error) {
+                console.log('Error during fetch: ' + error.message);
+            });
+}
 
-let GetThrPrice = new Promise(function (resolve, reject) {
-  setTimeout(function () {
-    reject("Won the  Price");
-  }, 200);
-});
+function displayUsersAsATable(users) {
+    // users is a JavaScript object
 
-roomClean
-  .then(function (result) {
-    console.log(result);
-    return removeGarbage;
-  })
-  .then(function (result) {
-    console.log(result);
-    return GetThrPrice;
-  })
-  .then(function (result) {
-    console.log(result);
-  });
+    // empty the div that contains the results
+    var usersDiv = document.querySelector("#users");
+    usersDiv.innerHTML = "";
 
-let promiseall = Promise.allSettled([roomClean, removeGarbage, GetThrPrice]);
-promiseall
-  .then(function (result) {
-    console.log("All Promise Are Resolved");
-    console.log(result);
-  })
-  .catch(function (error) {
-    console.log("Some Promise Are Rejected");
-    console.log(error);
-  });
+    // creates and populate the table with users
+    var table = document.createElement("table");
 
-//   promise.race=>
-//   it also takes an array of input
-//   and returns a new promise which fulfilled as soon as one of the promises in input array fulfills or rejected as soon as one ofthe promise
-//   in the array reject.
+    // iterate on the array of users
+    users.forEach(function (currentUser) {
+        // creates a row
+        var row = table.insertRow();
+        // insert cells in the row
+        var nameCell = row.insertCell();
+        nameCell.innerHTML = currentUser.name;
+        var cityCell = row.insertCell();
+        cityCell.innerHTML = currentUser.address.city;
+    });
+
+    // adds the table to the div
+    usersDiv.appendChild(table);
+}
