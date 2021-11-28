@@ -1,8 +1,4 @@
-// Name
-// City
-// Email
-// Phone
-
+//Adding search Logic
 function search() {
   const url = "https://jsonplaceholder.typicode.com/users";
   fetch(url)
