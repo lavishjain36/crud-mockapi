@@ -1,26 +1,47 @@
-const cat_btn = document.getElementById("cat_btn");
-const cat_result = document.getElementById("cat_result");
+// Name
+// City
+// Email
+// Phone
 
-//Take the hold the html attributes
-const dog_btn = document.getElementById("dog_btn");
-const dog_result = document.getElementById("dog_result");
-
-cat_btn.addEventListener("click", getRandomCat);
-
-dog_btn.addEventListener("click", getRandomDog);
-
-function getRandomCat() {
-  fetch("https://aws.random.cat/meow")
-    .then((response) => response.json())
-    .then((data) => {
-      cat_result.innerHTML = `<img src="${data.file}" width="300px height="350px"> `;
+function search() {
+  const url = "https://jsonplaceholder.typicode.com/users";
+  fetch(url)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (users) {
+      getData(users);
+    })
+    .catch(function (error) {
+      console.log(error);
     });
 }
 
-function getRandomDog() {
-  fetch("https://dog.ceo/api/breeds/image/random")
-    .then((response) => response.json())
-    .then((data) => {
-      dog_result.innerHTML = `<img src="${data.message}" width="300px height="350px"> `;
-    });
+function getData(users) {
+  let userDIv = document.querySelector("#users");
+  userDIv.innerHTML = "";
+
+  //create a table element and append it to the div
+  let table = document.createElement("table");
+
+  //create a table header
+
+  users.forEach(function (user) {
+    //create a row for each user
+    let row = table.insertRow();
+    let name = row.insertCell();
+    name.innerText = user.name;
+
+    let city = row.insertCell();
+    city.innerHTML = user.address.city;
+
+    let mail = row.insertCell();
+    mail.innerHTML = user.email;
+
+    let phone = row.insertCell();
+    phone.innerHTML = user.phone;
+  });
+
+  //Append table data to user Div who is holding id users from the html
+  userDIv.appendChild(table);
 }
