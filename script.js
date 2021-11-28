@@ -1,44 +1,20 @@
-function search() {
-    var queryURL = "https://jsonplaceholder.typicode.com/users";
+const fetchDataBtn = document.querySelector("#fetchdata");
+const result = document.querySelector("#result");
 
-    fetch(queryURL)
-            .then(function (response) {
-                // response.json() returns a json string,
-                // returning it will convert it 
-                // to a pure JavaScript 
-                // object for the next then's callback
-                return response.json();
-            })
-            .then(function (users) {
-                // users is a JavaScript object here
-                displayUsersAsATable(users);
-            })
-            .catch(function (error) {
-                console.log('Error during fetch: ' + error.message);
-            });
+//Get the data from an api and we have set the content in the result division
+
+async function getData() {
+  result.innerText = "Loading....";
+
+  try {
+    const response = await fetch("https://api.github.com/users/lavishjain36");
+    const data = await response.json();
+    result.innerText = `${data.name} has ${data.public_repos} public repos with name ${data.login}`;
+  } catch (err) {
+    result.innerText = "Error....";
+  }
 }
 
-function displayUsersAsATable(users) {
-    // users is a JavaScript object
+fetchDataBtn.addEventListener("click", getData);
 
-    // empty the div that contains the results
-    var usersDiv = document.querySelector("#users");
-    usersDiv.innerHTML = "";
-
-    // creates and populate the table with users
-    var table = document.createElement("table");
-
-    // iterate on the array of users
-    users.forEach(function (currentUser) {
-        // creates a row
-        var row = table.insertRow();
-        // insert cells in the row
-        var nameCell = row.insertCell();
-        nameCell.innerHTML = currentUser.name;
-        var cityCell = row.insertCell();
-        cityCell.innerHTML = currentUser.address.city;
-    });
-
-    // adds the table to the div
-    usersDiv.appendChild(table);
-}
+// innerText and innerHTML=>
