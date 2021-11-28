@@ -1,20 +1,26 @@
-const fetchDataBtn = document.querySelector("#fetchdata");
-const result = document.querySelector("#result");
+const cat_btn = document.getElementById("cat_btn");
+const cat_result = document.getElementById("cat_result");
 
-//Get the data from an api and we have set the content in the result division
+//Take the hold the html attributes
+const dog_btn = document.getElementById("dog_btn");
+const dog_result = document.getElementById("dog_result");
 
-async function getData() {
-  result.innerText = "Loading....";
+cat_btn.addEventListener("click", getRandomCat);
 
-  try {
-    const response = await fetch("https://api.github.com/users/lavishjain36");
-    const data = await response.json();
-    result.innerText = `${data.name} has ${data.public_repos} public repos with name ${data.login}`;
-  } catch (err) {
-    result.innerText = "Error....";
-  }
+dog_btn.addEventListener("click", getRandomDog);
+
+function getRandomCat() {
+  fetch("https://aws.random.cat/meow")
+    .then((response) => response.json())
+    .then((data) => {
+      cat_result.innerHTML = `<img src="${data.file}" width="300px height="350px"> `;
+    });
 }
 
-fetchDataBtn.addEventListener("click", getData);
-
-// innerText and innerHTML=>
+function getRandomDog() {
+  fetch("https://dog.ceo/api/breeds/image/random")
+    .then((response) => response.json())
+    .then((data) => {
+      dog_result.innerHTML = `<img src="${data.message}" width="300px height="350px"> `;
+    });
+}
