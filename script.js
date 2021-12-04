@@ -1,43 +1,82 @@
-//Adding search Logic
-function search() {
-  const url = "https://jsonplaceholder.typicode.com/users";
-  fetch(url)
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (users) {
-      getData(users);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+async function getUsers() {
+  let users;
+  try {
+    const data = await fetch(
+      "https://61ab0dc8bfb110001773f383.mockapi.io/users",
+      { method: "GET" }
+    );
+    users = await data.json();
+    // console.log(users);
+  } catch (err) {
+    console.log(err);
+  }
+  console.log("users...", users);
+  return users;
 }
 
-function getData(users) {
-  let userDIv = document.querySelector("#users");
-  userDIv.innerHTML = "";
+async function displayUsers() {
+  const users = await getUsers();
+  // console.log(users);
+  const userList = document.querySelector(".user-list");
+  userList.innerHTML = ""; // Wipping the old data
 
-  //create a table element and append it to the div
-  let table = document.createElement("table");
+  users.forEach((user) => {
+    console.log(user.avatar);
+    // innerText - text, innerHTML - html elements - h2
+    // interpolation - ${}, template literal  `` (backticks)
 
-  //create a table header
-
-  users.forEach(function (user) {
-    //create a row for each user
-    let row = table.insertRow();
-    let name = row.insertCell();
-    name.innerText = user.name;
-
-    let city = row.insertCell();
-    city.innerHTML = user.address.city;
-
-    let mail = row.insertCell();
-    mail.innerHTML = user.email;
-
-    let phone = row.insertCell();
-    phone.innerHTML = user.phone;
+    // Loading the new data
+    userList.innerHTML += `<div class="user-container">
+        <img class="user-avatar" src="${user.avatar}" />
+        <div>
+          <h2 class="user-name">${user.name}</h2>
+          <button onclick="deleteUser(${user.id})"> DELETE </button>
+        </div>
+      </div>`;
   });
+}
 
-  //Append table data to user Div who is holding id users from the html
-  userDIv.appendChild(table);
+displayUsers();
+
+async function deleteUser(id) {
+  console.log("Deleting user", id);
+  const data = await fetch(
+    "https://61ab0dc8bfb110001773f383.mockapi.io/users/" + id,
+    { method: "DELETE" }
+  );
+
+  // Delete button -> User deleting happens -> Refresh the list -> displayUsers (getUsers) (copy)
+  displayUsers();
+}
+// C - Create  - POST - Done
+// R - Read    - GET - Done
+// U - Update  - PUT - Its the combination of DELETE & POST
+// D - Delete  - DELETE - Done
+
+async function addUser() {
+  // console.log("Adding user");
+  const userName = document.querySelector(".add-user-name").value;
+  const userAvatar = document.querySelector(".add-user-avatar").value;
+  // console.log(name, avatar);
+
+  // 1. method - POST
+  // 2. provide data in the - body - stringfy
+  // 3. Specify - data format in headers - JSON
+
+  const data = await fetch(
+    "https://61ab0dc8bfb110001773f383.mockapi.io/users",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        name: userName,
+        avatar: userAvatar,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  // Add button -> User creation happens & when it is done -> Refresh the list -> displayUsers (getUsers) (copy)
+  displayUsers();
 }
