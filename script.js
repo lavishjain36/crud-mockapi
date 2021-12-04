@@ -2,69 +2,74 @@ async function getUsers() {
   let users;
   try {
     const data = await fetch(
-      "https://61ab0dc8bfb110001773f383.mockapi.io/users",
-      { method: "GET" }
+      "https://61ab3700264ec200176d4017.mockapi.io/users",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     );
     users = await data.json();
-    // console.log(users);
+    console.log(users);
   } catch (err) {
     console.log(err);
   }
-  console.log("users...", users);
   return users;
 }
 
-async function displayUsers() {
-  const users = await getUsers();
-  // console.log(users);
+async function displayUser() {
+  let users = await getUsers();
+  //   console.log(users);
   const userList = document.querySelector(".user-list");
-  userList.innerHTML = ""; // Wipping the old data
-
+  userList.innerHTML = "";
   users.forEach((user) => {
-    console.log(user.avatar);
-    // innerText - text, innerHTML - html elements - h2
-    // interpolation - ${}, template literal  `` (backticks)
+    // console.log(user.avatar);
 
-    // Loading the new data
+    //Load the data from the API
     userList.innerHTML += `<div class="user-container">
-        <img class="user-avatar" src="${user.avatar}" />
-        <div>
-          <h2 class="user-name">${user.name}</h2>
-          <button onclick="deleteUser(${user.id})"> DELETE </button>
-        </div>
-      </div>`;
+    <img class="user-avatar" src="${user.avatar}"/>
+    <div>
+    <h2 class="user-name">${user.name}</h2>
+    <button onclick="deleteUser(${user.id})">Delete</button>
+    <button onclick="editUser(${user.id})">Edit</button>
+
+    </div>
+    </div>`;
   });
 }
-
-displayUsers();
+displayUser();
 
 async function deleteUser(id) {
-  console.log("Deleting user", id);
-  const data = await fetch(
-    "https://61ab0dc8bfb110001773f383.mockapi.io/users/" + id,
-    { method: "DELETE" }
-  );
-
-  // Delete button -> User deleting happens -> Refresh the list -> displayUsers (getUsers) (copy)
-  displayUsers();
+  try {
+    const data = await fetch(
+      `https://61ab3700264ec200176d4017.mockapi.io/users/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const user = await data.json();
+    console.log(user);
+    displayUser();
+  } catch (err) {
+    console.log(err);
+  }
 }
-// C - Create  - POST - Done
-// R - Read    - GET - Done
-// U - Update  - PUT - Its the combination of DELETE & POST
-// D - Delete  - DELETE - Done
 
 async function addUser() {
-  // console.log("Adding user");
   const userName = document.querySelector(".add-user-name").value;
   const userAvatar = document.querySelector(".add-user-avatar").value;
-  // console.log(name, avatar);
 
-  // 1. method - POST
-  // 2. provide data in the - body - stringfy
-  // 3. Specify - data format in headers - JSON
+  //   console.log(userName, userAvatar);
+  //   1.method=>Post
+  //   2.stringify the data
+  //   .Specify the header=>JSOn
 
   const data = await fetch(
-    "https://61ab0dc8bfb110001773f383.mockapi.io/users",
+    "https://61ab3700264ec200176d4017.mockapi.io/users",
     {
       method: "POST",
       body: JSON.stringify({
@@ -77,6 +82,7 @@ async function addUser() {
     }
   );
 
-  // Add button -> User creation happens & when it is done -> Refresh the list -> displayUsers (getUsers) (copy)
-  displayUsers();
+  displayUser();
 }
+
+addUser();

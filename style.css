@@ -1,28 +1,8 @@
-body {
-  background-image: linear-gradient(
-    to right top,
-    #d16ba5,
-    #e97882,
-    #e79368,
-    #d3b064,
-    #b4cb7d,
-    #a2d793,
-    #8fe2ae,
-    #7deccb,
-    #76f0d4,
-    #6ff4dd,
-    #67f7e7,
-    #5ffbf1
-  );
-}
+/* body {
+  background-image: linear-gradient(to bottom, #ff3939 0%, #09ee70 100%);
+} */
 
 .user-list {
-  /*    display: flex;
-     flex-direction: column;
-  /*    justify-content: center; */
-  /*   align-items: center; */
-  /*   grid-template-columns: 1fr; */
-
   display: grid;
   place-content: center;
 }
