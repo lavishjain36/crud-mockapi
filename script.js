@@ -1,22 +1,35 @@
-//select the html button
-let btn = document.getElementById("btn");
+//Buil an html elements
+document.body.innerHTML = `<div class="heading-container">
+<h1>Brewerys List</h1>
+<img class="icon" src="https://static.thenounproject.com/png/2559187-200.png" width="50px" height="50px"alt="icon">
 
-let data = document.getElementById("data");
+</div>
+<div id="mainContainer" class="main-container"> </div>`;
 
-const url = "https://breakingbadapi.com/api/quote/random";
-
-btn.addEventListener("click", async function () {
+const getData = async () => {
   try {
-    let res = await fetch(url);
-    let obj = await res.json();
-    // console.log(obj);
-    data.innerHTML = `
-  <div>Quote ID:${obj[0].quote_id}</div>
-  <div>Quote:${obj[0].quote}</div>
-  <div>Author:${obj[0].author}</div>
-  <div>Series:${obj[0].series}</div> 
-    `;
-  } catch (err) {
-    console.log(err);
+    const data = await fetch("https://api.openbrewerydb.org/breweries");
+    const brewerys = await data.json();
+    mainContainer.innerHTML = "";
+    brewerys.forEach((brewery) => {
+      displayData(brewery);
+    });
+  } catch (error) {
+    console.log(error);
   }
-});
+};
+
+getData();
+const displayData = (obj) => {
+  mainContainer.innerHTML += `
+  <div class="container">
+  <h3 class="blue">Breweries Name:<span>${obj.city}</span></h3>
+  <p class="para blue">Brewries Type:<span>${obj.brewery_type}</span></p>
+  <p class="para blue">Brewries Phone:<span>${obj.phone}</span></p>
+  <p class="para blue">Brewries Website:<span>${obj.website_url}</span></p>
+  <p class="para blue">Brewries Address:<span>${obj.street}</span></p>
+  <p class="para blue">Brewries State:<span>${obj.state}</span></p>
+  <p class="para blue">Brewries Zip:<span>${obj.postal_code}</span></p>
+  <p class="para blue">Brewries Country:<span>${obj.country}</span></p>
+  </div>`;
+};
