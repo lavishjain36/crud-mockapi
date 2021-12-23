@@ -1,40 +1,80 @@
-//Create and Build and HTML element
+var url = "https://61c417cff1af4a0017d992c3.mockapi.io/users";
 
-document.body.innerHTML = `<div class="heading-container">
-<h1>Brewery List</h1>
-<img class="icon" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7SBtHQ5W9MYXLRJGHMstMpB2zJfj3scaSKcPN4MtWEjjuuL5WoApj2QpMr38_Y6BpcRM&usqp=CAU" width="300px" height="100px" alt="icon">
-</div>
-<div id="mainContainer" class="main-container"></div>
-`;
+//Get all the users data with HTTP method=GET
+//Read the data
+function getData() {
+  fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((result) => result.json())
+    .then((data) => console.log(data))
+    .catch((error) => console.log(error));
+}
 
-const getData = async () => {
-  try {
-    const data = await fetch("https://api.openbrewerydb.org/breweries");
-    const brewerys = await data.json();
+// getData();
+//Creation of data is done with POST method
+// send the data  to the server
+function createData() {
+  let data = {
+    name: "Kiran",
+    email: "kiran@gmail.com",
+  };
 
-    mainContainer.innerHTML = "";
-    brewerys.forEach((brewery) => {
-      displayData(brewery);
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
+  fetch(url, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((result) => result.json())
+    .then((data) => console.log(data))
+    .catch((error) => console.log(error));
+}
+// createData();
+// getData();
 
-getData();
+//Update the data
+// Http Method=>PUT /id
+function updateData() {
+  let data = {
+    name: "Kaushik Bhat",
+    email: "kaushik@gmail.com",
+  };
 
-const displayData = (obj) => {
-  mainContainer.innerHTML += `
-<div class="container">
-<h3 class="blue">Brewery City:<span>${obj.city}</span></h3>
-<p class="para blue"> Brewery Type:<span>${obj.brewery_type}</span></p>
-<p class="para blue"> Brewery Phone:<span>${obj.phone}</span></p>
-<p class="para blue"> Brewery Website:<span>${obj.website_url}</span></p>
-<p class="para blue"> Brewery Address:<span>${obj.street}</span></p>
-<p class="para blue"> Brewery State:<span>${obj.state}</span></p>
-<p class="para blue"> Brewery Zip:<span>${obj.postal_code}</span></p>
-<p class="para blue"> Brewery Country:<span>${obj.country}</span></p>
-</div>`;
-};
+  fetch(url + "/1", {
+    method: "PUT",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((result) => result.json())
+    .then((data) => console.log(data))
+    .catch((error) => console.log(error));
+}
 
-// not to use anything in index.html except
+// updateData();
+
+//Delete the data
+// Http Method=>DELETE /id
+function deleteData() {
+  fetch(url + "/8", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((result) => result.json())
+    .then((data) => console.log(data))
+    .catch((error) => console.log(error));
+}
+
+// deleteData();
+
+// Recap +Practice
+// 3-4 exericse
+// DOM MAnipulation
