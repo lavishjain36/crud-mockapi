@@ -1,80 +1,87 @@
-var url = "https://61c417cff1af4a0017d992c3.mockapi.io/users";
-
-//Get all the users data with HTTP method=GET
-//Read the data
-function getData() {
-  fetch(url, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((result) => result.json())
-    .then((data) => console.log(data))
-    .catch((error) => console.log(error));
+async function getUsers() {
+  let users;
+  try {
+    const data = await fetch(
+      "https://61c417cff1af4a0017d992c3.mockapi.io/users",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    users = await data.json();
+    console.log(users);
+  } catch (err) {
+    console.log(err);
+  }
+  return users;
 }
 
-// getData();
-//Creation of data is done with POST method
-// send the data  to the server
-function createData() {
-  let data = {
-    name: "Kiran",
-    email: "kiran@gmail.com",
-  };
+async function displayUser() {
+  let users = await getUsers();
+  //   console.log(users);
+  const userList = document.querySelector(".user-list");
+  userList.innerHTML = "";
+  users.forEach((user) => {
+    // console.log(user.avatar);
 
-  fetch(url, {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((result) => result.json())
-    .then((data) => console.log(data))
-    .catch((error) => console.log(error));
+    //Load the data from the API
+    userList.innerHTML += `<div class="user-container">
+      <img class="user-avatar" src="${user.avatar}"/>
+      <div>
+      <h2 class="user-name">${user.name}</h2>
+      <button onclick="deleteUser(${user.id})">Delete</button>
+      <button onclick="editUser(${user.id})">Edit</button>
+      </div>
+      </div>`;
+  });
 }
-// createData();
-// getData();
+displayUser();
 
-//Update the data
-// Http Method=>PUT /id
-function updateData() {
-  let data = {
-    name: "Kaushik Bhat",
-    email: "kaushik@gmail.com",
-  };
-
-  fetch(url + "/1", {
-    method: "PUT",
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((result) => result.json())
-    .then((data) => console.log(data))
-    .catch((error) => console.log(error));
+async function deleteUser(id) {
+  try {
+    const data = await fetch(
+      `https://61c417cff1af4a0017d992c3.mockapi.io/users/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const user = await data.json();
+    console.log(user);
+    displayUser();
+  } catch (err) {
+    console.log(err);
+  }
 }
 
-// updateData();
+async function addUser() {
+  const userName = document.querySelector(".add-user-name").value;
+  const userAvatar = document.querySelector(".add-user-avatar").value;
 
-//Delete the data
-// Http Method=>DELETE /id
-function deleteData() {
-  fetch(url + "/8", {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((result) => result.json())
-    .then((data) => console.log(data))
-    .catch((error) => console.log(error));
+  //   console.log(userName, userAvatar);
+  //   1.method=>Post
+  //   2.stringify the data
+  //   .Specify the header=>JSOn
+
+  const data = await fetch(
+    "https://61c417cff1af4a0017d992c3.mockapi.io/users",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        name: userName,
+        avatar: userAvatar,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  displayUser();
 }
 
-// deleteData();
-
-// Recap +Practice
-// 3-4 exericse
-// DOM MAnipulation
+addUser();
